@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Process | Apex Buildstone</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f59e0b', // Construction Amber
+                        secondary: '#1e293b', // Slate 800
+                        dark: '#0f172a', // Slate 900
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Utilities */
+        body {
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Hero Parallax & Overlay */
+        .page-header {
+            /* Process specific background - Planning & Structure */
+            background-image: linear-gradient(rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.9)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+
+        /* Navbar Transition */
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Timeline Styles */
+        .timeline-line {
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #e5e7eb;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 5rem;
+            padding-bottom: 3rem;
+        }
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background-color: white;
+            border: 4px solid #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 1.25rem;
+            z-index: 10;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* FAQ Accordion */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            transition: max-height 0.5s ease-in;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f59e0b;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 text-white">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl font-heading font-bold flex items-center gap-2">
+                <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm lg:text-base">
+                <a href="index.html" class="hover:text-primary transition font-medium">Home</a>
+                <a href="about.html" class="hover:text-primary transition font-medium">About</a>
+                <a href="services.html" class="hover:text-primary transition font-medium">Services</a>
+                <a href="process.html" class="text-primary font-bold transition font-medium">Process</a>
+                <a href="projects.html" class="hover:text-primary transition font-medium">Projects</a>
+                <a href="team.html" class="hover:text-primary transition font-medium">Team</a>
+                <a href="contact.html" class="px-6 py-2 bg-primary text-white font-bold rounded hover:bg-yellow-600 transition shadow-lg transform hover:-translate-y-1">Contact Us</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark absolute top-full left-0 w-full py-4 px-6 shadow-xl border-t border-gray-800">
+            <a href="index.html" class="block py-2 hover:text-primary border-b border-gray-800">Home</a>
+            <a href="about.html" class="block py-2 hover:text-primary border-b border-gray-800">About</a>
+            <a href="services.html" class="block py-2 hover:text-primary border-b border-gray-800">Services</a>
+            <a href="process.html" class="block py-2 text-primary font-bold border-b border-gray-800">Process</a>
+            <a href="projects.html" class="block py-2 hover:text-primary border-b border-gray-800">Projects</a>
+            <a href="team.html" class="block py-2 hover:text-primary border-b border-gray-800">Team</a>
+            <a href="contact.html" class="block py-3 mt-2 text-primary font-bold">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header relative">
+        <div class="container mx-auto px-6 z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
+                    <a href="index.html" class="text-primary font-bold tracking-widest uppercase text-sm mb-4 inline-block hover:text-white transition"><i class="fas fa-arrow-left mr-2"></i> Back to Home</a>
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">Our Process</h1>
+                    <div class="w-24 h-1.5 bg-primary rounded mx-auto lg:mx-0"></div>
+                    <p class="text-gray-200 mt-6 text-lg leading-relaxed">
+                        Transparency at every step. From the initial handshake to the final key handover, our proven 7-step process ensures a hassle-free experience.
+                    </p>
+                    <div class="mt-8">
+                        <a href="#contact" class="px-8 py-4 bg-primary text-white font-bold rounded shadow-lg hover:bg-yellow-600 transition inline-block">Start Your Project</a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Engineers collaborating on site with plans" class="rounded-xl shadow-2xl border-4 border-white/10 transform rotate-2 hover:rotate-0 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row gap-16">
+                
+                <!-- Sidebar Navigation (Sticky) -->
+                <div class="lg:w-1/4 hidden lg:block">
+                    <div class="sticky top-32 space-y-4">
+                        <h3 class="text-xl font-bold text-secondary mb-4 border-b pb-2">Our Services</h3>
+                        <a href="residential.html" class="block p-3 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-primary rounded transition border-l-4 border-transparent hover:border-primary">Residential</a>
+                        <a href="commercial.html" class="block p-3 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-primary rounded transition border-l-4 border-transparent hover:border-primary">Commercial</a>
+                        <a href="industrial.html" class="block p-3 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-primary rounded transition border-l-4 border-transparent hover:border-primary">Industrial</a>
+                        <a href="architecture.html" class="block p-3 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-primary rounded transition border-l-4 border-transparent hover:border-primary">Architecture</a>
+                        <a href="interiors.html" class="block p-3 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-primary rounded transition border-l-4 border-transparent hover:border-primary">Interiors</a>
+                        <a href="infrastructure.html" class="block p-3 bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-primary rounded transition border-l-4 border-transparent hover:border-primary">Infrastructure</a>
+
+                        <div class="bg-secondary text-white p-6 rounded-xl mt-8">
+                            <h4 class="font-bold text-xl mb-2">Start Your Project</h4>
+                            <p class="text-sm text-gray-300 mb-4">Ready to take the first step? Book a consultation today.</p>
+                            <a href="contact.html" class="inline-block w-full text-center py-2 bg-primary text-white font-bold rounded hover:bg-yellow-600 transition">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Content -->
+                <div class="lg:w-3/4">
+                    <!-- Intro -->
+                    <div class="mb-12" data-aos="fade-up">
+                        <h2 class="text-3xl font-heading font-bold text-secondary mb-4">A Legacy of Structured Execution</h2>
+                        <p class="text-gray-600 leading-relaxed">
+                            Construction can be complex, but it shouldn't be confusing. We break down the entire lifecycle of your project into manageable phases. This ensures you are always informed about the progress, budget, and timeline.
+                        </p>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="relative py-8">
+                        <div class="timeline-line"></div>
+
+                        <!-- Step 1 -->
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                            <div class="timeline-marker">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">1. Consultation & Site Visit</h3>
+                            <p class="text-gray-500 text-sm mt-1 mb-3">Duration: 1 Week</p>
+                            <p class="text-gray-600 leading-relaxed">
+                                We meet to understand your requirements, budget, and vision. Our engineers visit the site to assess soil conditions, plot dimensions, and local regulations. We provide a preliminary feasibility report.
+                            </p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="timeline-marker">
+                                <i class="fas fa-pencil-ruler"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">2. Design & Estimation</h3>
+                            <p class="text-gray-500 text-sm mt-1 mb-3">Duration: 2-4 Weeks</p>
+                            <p class="text-gray-600 leading-relaxed">
+                                Our architects create 2D floor plans and 3D elevations based on your inputs. Simultaneously, we prepare a detailed Bill of Quantities (BOQ) giving you a precise cost estimate with no hidden charges.
+                            </p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                            <div class="timeline-marker">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">3. Approvals & Agreement</h3>
+                            <p class="text-gray-500 text-sm mt-1 mb-3">Duration: Variable</p>
+                            <p class="text-gray-600 leading-relaxed">
+                                We sign a formal construction agreement defining specifications, payment schedules, and timelines. We also assist in obtaining necessary sanctions from BBMP/BDA and other authorities.
+                            </p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
+                            <div class="timeline-marker">
+                                <i class="fas fa-hard-hat"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">4. Excavation & Structure</h3>
+                            <p class="text-gray-500 text-sm mt-1 mb-3">Duration: 3-6 Months</p>
+                            <p class="text-gray-600 leading-relaxed">
+                                The ground is broken! We proceed with earthwork, footing, columns, and concrete roofing. Regular quality checks (cube tests) are conducted to ensure structural strength.
+                            </p>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="500">
+                            <div class="timeline-marker">
+                                <i class="fas fa-brick"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">5. Brickwork & Plastering</h3>
+                            <p class="text-gray-500 text-sm mt-1 mb-3">Duration: 2-3 Months</p>
+                            <p class="text-gray-600 leading-relaxed">
+                                Walls are raised, and internal/external plastering is completed. Electrical conduits and plumbing lines are concealed within the walls at this stage.
+                            </p>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="600">
+                            <div class="timeline-marker">
+                                <i class="fas fa-paint-roller"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">6. Finishing & Interiors</h3>
+                            <p class="text-gray-500 text-sm mt-1 mb-3">Duration: 2-3 Months</p>
+                            <p class="text-gray-600 leading-relaxed">
+                                Flooring, painting, window installation, and carpentry work happen now. The building transforms into a livable space with premium finishes.
+                            </p>
+                        </div>
+
+                        <!-- Step 7 -->
+                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="700">
+                            <div class="timeline-marker bg-primary text-white border-white">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-secondary">7. Quality Check & Handover</h3>
+                            <p class="text-gray-500 text-sm mt-1 mb-3">Duration: 2 Weeks</p>
+                            <p class="text-gray-600 leading-relaxed">
+                                A final snags-list inspection is done. Once everything is perfect, we hand over the keys along with the structural warranty certificate and "As-Built" drawings.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Process FAQs -->
+                    <div class="mt-16">
+                        <h3 class="text-2xl font-bold text-secondary mb-6">Process FAQs</h3>
+                        <div class="space-y-4">
+                            <!-- FAQ 1 -->
+                            <div class="faq-item bg-gray-50 rounded-lg border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                                <div class="p-4 flex justify-between items-center">
+                                    <h4 class="font-bold text-secondary">How do you handle payment schedules?</h4>
+                                    <i class="fas fa-chevron-down text-primary faq-icon"></i>
+                                </div>
+                                <div class="faq-answer px-4 bg-white text-gray-600 text-sm">
+                                    <div class="pb-4">
+                                        Payments are stage-wise. You pay a percentage upon completion of specific milestones (e.g., Plinth completion, 1st Slab, Plastering). This ensures your money is always safe.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FAQ 2 -->
+                            <div class="faq-item bg-gray-50 rounded-lg border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                                <div class="p-4 flex justify-between items-center">
+                                    <h4 class="font-bold text-secondary">Can I make changes during construction?</h4>
+                                    <i class="fas fa-chevron-down text-primary faq-icon"></i>
+                                </div>
+                                <div class="faq-answer px-4 bg-white text-gray-600 text-sm">
+                                    <div class="pb-4">
+                                        Yes, minor changes are accommodated. However, structural changes are difficult after casting. Any extra cost due to changes in material or scope will be billed separately.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FAQ 3 -->
+                            <div class="faq-item bg-gray-50 rounded-lg border border-gray-200 overflow-hidden cursor-pointer" onclick="toggleFaq(this)">
+                                <div class="p-4 flex justify-between items-center">
+                                    <h4 class="font-bold text-secondary">Do you handle temporary electricity and water?</h4>
+                                    <i class="fas fa-chevron-down text-primary faq-icon"></i>
+                                </div>
+                                <div class="faq-answer px-4 bg-white text-gray-600 text-sm">
+                                    <div class="pb-4">
+                                        Yes, we assist in applying for temporary BESCOM and BWSSB connections required for construction. The consumption charges are usually borne by the client or as per the agreement.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white border-t border-gray-800 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="index.html" class="text-2xl font-heading font-bold flex items-center gap-2 mb-6">
+                        <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-loose">
+                        Building the future of Bangalore with precision, quality, and trust. ISO 9001:2015 Certified Construction Company.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition hover:pl-2 duration-300">Home</a></li>
+                        <li><a href="about.html" class="hover:text-primary transition hover:pl-2 duration-300">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-primary transition hover:pl-2 duration-300">Services</a></li>
+                        <li><a href="process.html" class="text-primary transition hover:pl-2 duration-300">Process</a></li>
+                        <li><a href="projects.html" class="hover:text-primary transition hover:pl-2 duration-300">Projects</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition hover:pl-2 duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Services</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="residential.html" class="hover:text-primary transition hover:pl-2 duration-300">Residential Construction</a></li>
+                        <li><a href="commercial.html" class="hover:text-primary transition hover:pl-2 duration-300">Commercial Complex</a></li>
+                        <li><a href="industrial.html" class="hover:text-primary transition hover:pl-2 duration-300">Industrial Sheds</a></li>
+                        <li><a href="interiors.html" class="hover:text-primary transition hover:pl-2 duration-300">Interior Design</a></li>
+                        <li><a href="renovation.html" class="hover:text-primary transition hover:pl-2 duration-300">Renovations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Newsletter</h4>
+                    <p class="text-gray-500 text-sm mb-4">Subscribe to get construction tips and market insights.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your Email" class="px-4 py-3 bg-gray-900 text-white border border-gray-800 rounded-l focus:outline-none focus:border-primary w-full transition">
+                        <button class="bg-primary px-4 py-3 rounded-r hover:bg-yellow-600 transition font-bold text-white"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2023 Apex Buildstone Pvt Ltd. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white mr-4 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 80,
+            easing: 'ease-in-out'
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // FAQ Toggle Logic
+        function toggleFaq(element) {
+            // Close all others
+            const allFaqs = document.querySelectorAll('.faq-item');
+            allFaqs.forEach(item => {
+                if(item !== element) {
+                    item.classList.remove('active');
+                }
+            });
+            // Toggle clicked
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Apex Buildstone</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f59e0b', // Construction Amber
+                        secondary: '#1e293b', // Slate 800
+                        dark: '#0f172a', // Slate 900
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Utilities */
+        body {
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Hero Parallax & Overlay */
+        .page-header {
+            /* Projects specific background - Cityscape */
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1486325212027-8081e485255e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+
+        /* Navbar Transition */
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Project Card */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .project-image {
+            transition: transform 0.7s ease;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+        .project-overlay {
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0));
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        .project-card:hover .project-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Filter Buttons */
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background-color: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f59e0b;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 text-white">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl font-heading font-bold flex items-center gap-2">
+                <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm lg:text-base">
+                <a href="index.html" class="hover:text-primary transition font-medium">Home</a>
+                <a href="about.html" class="hover:text-primary transition font-medium">About</a>
+                <a href="services.html" class="hover:text-primary transition font-medium">Services</a>
+                <a href="process.html" class="hover:text-primary transition font-medium">Process</a>
+                <a href="projects.html" class="text-primary font-bold transition font-medium">Projects</a>
+                <a href="team.html" class="hover:text-primary transition font-medium">Team</a>
+                <a href="contact.html" class="px-6 py-2 bg-primary text-white font-bold rounded hover:bg-yellow-600 transition shadow-lg transform hover:-translate-y-1">Contact Us</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark absolute top-full left-0 w-full py-4 px-6 shadow-xl border-t border-gray-800">
+            <a href="index.html" class="block py-2 hover:text-primary border-b border-gray-800">Home</a>
+            <a href="about.html" class="block py-2 hover:text-primary border-b border-gray-800">About</a>
+            <a href="services.html" class="block py-2 hover:text-primary border-b border-gray-800">Services</a>
+            <a href="process.html" class="block py-2 hover:text-primary border-b border-gray-800">Process</a>
+            <a href="projects.html" class="block py-2 text-primary font-bold border-b border-gray-800">Projects</a>
+            <a href="team.html" class="block py-2 hover:text-primary border-b border-gray-800">Team</a>
+            <a href="contact.html" class="block py-3 mt-2 text-primary font-bold">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header relative">
+        <div class="container mx-auto px-6 z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
+                    <a href="index.html" class="text-primary font-bold tracking-widest uppercase text-sm mb-4 inline-block hover:text-white transition"><i class="fas fa-arrow-left mr-2"></i> Back to Home</a>
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">Our Portfolio</h1>
+                    <div class="w-24 h-1.5 bg-primary rounded mx-auto lg:mx-0"></div>
+                    <p class="text-gray-200 mt-6 text-lg leading-relaxed">
+                        A showcase of engineering excellence. Explore our diverse portfolio ranging from iconic commercial towers to bespoke luxury residences.
+                    </p>
+                    <div class="mt-8">
+                        <a href="#gallery" class="px-8 py-4 bg-primary text-white font-bold rounded shadow-lg hover:bg-yellow-600 transition inline-block">View All Projects</a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1460317442991-0ec2aa247f7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Completed High-Rise Building" class="rounded-xl shadow-2xl border-4 border-white/10 transform -rotate-2 hover:rotate-0 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filter & Gallery Section -->
+    <section id="gallery" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            
+            <!-- Filters -->
+            <div class="flex flex-wrap justify-center gap-4 mb-16" data-aos="fade-up">
+                <button class="filter-btn active px-6 py-2 border-2 border-gray-200 rounded-full font-bold text-secondary hover:border-primary hover:text-primary" onclick="filterProjects('all', this)">All</button>
+                <button class="filter-btn px-6 py-2 border-2 border-gray-200 rounded-full font-bold text-secondary hover:border-primary hover:text-primary" onclick="filterProjects('residential', this)">Residential</button>
+                <button class="filter-btn px-6 py-2 border-2 border-gray-200 rounded-full font-bold text-secondary hover:border-primary hover:text-primary" onclick="filterProjects('commercial', this)">Commercial</button>
+                <button class="filter-btn px-6 py-2 border-2 border-gray-200 rounded-full font-bold text-secondary hover:border-primary hover:text-primary" onclick="filterProjects('industrial', this)">Industrial</button>
+                <button class="filter-btn px-6 py-2 border-2 border-gray-200 rounded-full font-bold text-secondary hover:border-primary hover:text-primary" onclick="filterProjects('interiors', this)">Interiors</button>
+            </div>
+
+            <!-- Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                
+                <!-- Project 1 (Residential) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="residential" data-aos="fade-up">
+                    <img src="https://images.unsplash.com/photo-1600596542815-e32cb1413847?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Luxury Villa" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Residential</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Emerald Villa</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> Koramangala, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 2 (Commercial) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="commercial" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tech Park" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Commercial</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Apex Tech Hub</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> Whitefield, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 3 (Residential) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="residential" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1590674899505-1c5c41949430?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Apartment Complex" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Residential</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Skyline Heights</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> Jayanagar, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 4 (Interiors) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="interiors" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Office Interior" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Interiors</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Innovate Co-works</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> HSR Layout, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 5 (Industrial) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="industrial" data-aos="fade-up" data-aos-delay="400">
+                    <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Industrial Factory" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Industrial</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Titan Logistics Park</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> Peenya, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 6 (Commercial) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="commercial" data-aos="fade-up" data-aos-delay="500">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Mall" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Commercial</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Phoenix Plaza</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> Mahadevapura, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 7 (Interiors) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="interiors" data-aos="fade-up" data-aos-delay="600">
+                    <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Home Interior" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Interiors</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">The Menon Residence</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> Indiranagar, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+                <!-- Project 8 (Residential) -->
+                <div class="project-card group h-80 cursor-pointer" data-category="residential" data-aos="fade-up" data-aos-delay="700">
+                    <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gated Community Villa" class="project-image">
+                    <div class="project-overlay">
+                        <span class="text-primary font-bold text-xs uppercase tracking-wider mb-1 block">Residential</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Palm Meadows Phase 2</h3>
+                        <p class="text-gray-300 text-sm mb-4"><i class="fas fa-map-marker-alt mr-2"></i> Whitefield, Bangalore</p>
+                        <a href="#" class="text-white font-bold border-b border-primary hover:text-primary transition pb-1">View Details</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Spotlight Section -->
+    <section class="py-24 bg-secondary text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <span class="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Featured Project</span>
+                    <h2 class="text-4xl font-heading font-bold mb-6">Green Valley IT Park</h2>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        A landmark project spanning 500,000 sq. ft. in Electronic City. This LEED Gold certified structure features a state-of-the-art glass facade, energy-efficient HVAC systems, and a column-free design for maximum workspace flexibility.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div>
+                            <span class="block text-gray-400 text-xs uppercase">Location</span>
+                            <span class="font-bold text-lg">Electronic City</span>
+                        </div>
+                        <div>
+                            <span class="block text-gray-400 text-xs uppercase">Area</span>
+                            <span class="font-bold text-lg">5 Lakh Sq. Ft.</span>
+                        </div>
+                        <div>
+                            <span class="block text-gray-400 text-xs uppercase">Duration</span>
+                            <span class="font-bold text-lg">18 Months</span>
+                        </div>
+                        <div>
+                            <span class="block text-gray-400 text-xs uppercase">Status</span>
+                            <span class="font-bold text-lg text-green-400">Completed 2023</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="inline-block px-8 py-3 bg-primary text-white font-bold rounded hover:bg-white hover:text-primary transition">Get Similar Quote</a>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Featured IT Park" class="rounded-xl shadow-2xl border-4 border-white/10">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white border-t border-gray-800 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="index.html" class="text-2xl font-heading font-bold flex items-center gap-2 mb-6">
+                        <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-loose">
+                        Building the future of Bangalore with precision, quality, and trust. ISO 9001:2015 Certified Construction Company.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition hover:pl-2 duration-300">Home</a></li>
+                        <li><a href="about.html" class="hover:text-primary transition hover:pl-2 duration-300">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-primary transition hover:pl-2 duration-300">Services</a></li>
+                        <li><a href="process.html" class="hover:text-primary transition hover:pl-2 duration-300">Process</a></li>
+                        <li><a href="projects.html" class="text-primary transition hover:pl-2 duration-300">Projects</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition hover:pl-2 duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Services</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="residential.html" class="hover:text-primary transition hover:pl-2 duration-300">Residential Construction</a></li>
+                        <li><a href="commercial.html" class="hover:text-primary transition hover:pl-2 duration-300">Commercial Complex</a></li>
+                        <li><a href="industrial.html" class="hover:text-primary transition hover:pl-2 duration-300">Industrial Sheds</a></li>
+                        <li><a href="interiors.html" class="hover:text-primary transition hover:pl-2 duration-300">Interior Design</a></li>
+                        <li><a href="renovation.html" class="hover:text-primary transition hover:pl-2 duration-300">Renovations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Newsletter</h4>
+                    <p class="text-gray-500 text-sm mb-4">Subscribe to get construction tips and market insights.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your Email" class="px-4 py-3 bg-gray-900 text-white border border-gray-800 rounded-l focus:outline-none focus:border-primary w-full transition">
+                        <button class="bg-primary px-4 py-3 rounded-r hover:bg-yellow-600 transition font-bold text-white"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2023 Apex Buildstone Pvt Ltd. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white mr-4 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 80,
+            easing: 'ease-in-out'
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Project Filter Logic
+        function filterProjects(category, btn) {
+            // Update active button state
+            const allBtns = document.querySelectorAll('.filter-btn');
+            allBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter items
+            const items = document.querySelectorAll('.project-card');
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'block';
+                    // Re-trigger animation if hidden previously (optional simple fade effect)
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.opacity = '1', 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

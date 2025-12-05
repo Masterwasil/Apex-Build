@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team | Apex Buildstone</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f59e0b', // Construction Amber
+                        secondary: '#1e293b', // Slate 800
+                        dark: '#0f172a', // Slate 900
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Utilities */
+        body {
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Hero Parallax & Overlay */
+        .page-header {
+            /* Team specific background - Collaborative setting */
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+        }
+
+        /* Navbar Transition */
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Team Card Styles */
+        .team-card-lg {
+            transition: all 0.4s ease;
+        }
+        .team-card-lg:hover {
+            transform: translateY(-10px);
+        }
+        .team-card-lg:hover .social-overlay {
+            opacity: 1;
+            bottom: 0;
+        }
+        .social-overlay {
+            background: linear-gradient(to top, rgba(245, 158, 11, 0.9), rgba(245, 158, 11, 0));
+            transition: all 0.4s ease;
+            bottom: -20px;
+        }
+
+        /* Department Grid */
+        .dept-card {
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .dept-card:hover {
+            border-left-color: #f59e0b;
+            background-color: #f8fafc;
+            transform: translateX(5px);
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f59e0b;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 text-white">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl font-heading font-bold flex items-center gap-2">
+                <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm lg:text-base">
+                <a href="index.html" class="hover:text-primary transition font-medium">Home</a>
+                <a href="about.html" class="hover:text-primary transition font-medium">About</a>
+                <a href="services.html" class="hover:text-primary transition font-medium">Services</a>
+                <a href="process.html" class="hover:text-primary transition font-medium">Process</a>
+                <a href="projects.html" class="hover:text-primary transition font-medium">Projects</a>
+                <a href="team.html" class="text-primary font-bold transition font-medium">Team</a>
+                <a href="contact.html" class="px-6 py-2 bg-primary text-white font-bold rounded hover:bg-yellow-600 transition shadow-lg transform hover:-translate-y-1">Contact Us</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark absolute top-full left-0 w-full py-4 px-6 shadow-xl border-t border-gray-800">
+            <a href="index.html" class="block py-2 hover:text-primary border-b border-gray-800">Home</a>
+            <a href="about.html" class="block py-2 hover:text-primary border-b border-gray-800">About</a>
+            <a href="services.html" class="block py-2 hover:text-primary border-b border-gray-800">Services</a>
+            <a href="process.html" class="block py-2 hover:text-primary border-b border-gray-800">Process</a>
+            <a href="projects.html" class="block py-2 hover:text-primary border-b border-gray-800">Projects</a>
+            <a href="team.html" class="block py-2 text-primary font-bold border-b border-gray-800">Team</a>
+            <a href="contact.html" class="block py-3 mt-2 text-primary font-bold">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header relative">
+        <div class="container mx-auto px-6 z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 text-center lg:text-left" data-aos="fade-right">
+                    <a href="index.html" class="text-primary font-bold tracking-widest uppercase text-sm mb-4 inline-block hover:text-white transition"><i class="fas fa-arrow-left mr-2"></i> Back to Home</a>
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">Meet The Builders</h1>
+                    <div class="w-24 h-1.5 bg-primary rounded mx-auto lg:mx-0"></div>
+                    <p class="text-gray-200 mt-6 text-lg leading-relaxed">
+                        The strength of Apex Buildstone lies not in our concrete, but in our people. Meet the visionary leaders and expert engineers crafting Bangalore's skyline.
+                    </p>
+                    <div class="mt-8">
+                        <a href="#careers" class="px-8 py-4 bg-primary text-white font-bold rounded shadow-lg hover:bg-yellow-600 transition inline-block">Join Our Team</a>
+                    </div>
+                </div>
+                <div class="lg:w-1/2" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team Meeting" class="rounded-xl shadow-2xl border-4 border-white/10 transform rotate-2 hover:rotate-0 transition duration-500">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Leadership Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm">Executive Board</span>
+                <h2 class="text-4xl font-heading font-bold text-secondary mt-2">Leadership Team</h2>
+                <div class="w-24 h-1.5 bg-primary mx-auto mt-4 rounded"></div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Leader 1 -->
+                <div class="team-card-lg bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative h-96 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ramesh Gowda" class="w-full h-full object-cover object-top">
+                        <div class="social-overlay absolute inset-0 flex items-end justify-center pb-6 opacity-0">
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 text-center">
+                        <h3 class="text-2xl font-bold text-secondary">Ramesh Gowda</h3>
+                        <p class="text-primary font-bold uppercase text-xs tracking-widest mt-1">Founder & Managing Director</p>
+                        <p class="text-gray-500 mt-4 text-sm leading-relaxed">
+                            With over 30 years in civil engineering, Ramesh laid the foundation of Apex with a vision for quality and integrity.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Leader 2 -->
+                <div class="team-card-lg bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative h-96 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Priya Iyer" class="w-full h-full object-cover object-top">
+                        <div class="social-overlay absolute inset-0 flex items-end justify-center pb-6 opacity-0">
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" class="w-10 h-10 rounded-full bg-white text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition"><i class="fas fa-envelope"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 text-center">
+                        <h3 class="text-2xl font-bold text-secondary">Priya Iyer</h3>
+                        <p class="text-primary font-bold uppercase text-xs tracking-widest mt-1">Director of Architecture</p>
+                        <p class="text-gray-500 mt-4 text-sm leading-relaxed">
+                            An award-winning architect, Priya leads the design wing, ensuring every Apex structure is aesthetically iconic and sustainable.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Leader 3 -->
+                <div class="team-card-lg bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100" data-aos="fade-up" data-aos-delay="300">
+                    <div class="relative h-96 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Suresh Reddy" class="w-full h-full object-cover object-top">
+                        <div class="social-overlay absolute inset-0 flex items-end justify-center pb-6 opacity-0">
+                            <div class="flex space-x-4">
+                                <a href="#" class="w-10 h-10 rounded-full bg-white text-secondary flex items-center justify-center hover:bg-secondary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-8 text-center">
+                        <h3 class="text-2xl font-bold text-secondary">Suresh Reddy</h3>
+                        <p class="text-primary font-bold uppercase text-xs tracking-widest mt-1">Head of Operations</p>
+                        <p class="text-gray-500 mt-4 text-sm leading-relaxed">
+                            The backbone of execution. Suresh oversees all project sites, ensuring safety standards and timeline adherence.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Departments -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm">Our Strength</span>
+                <h2 class="text-3xl font-heading font-bold text-secondary mt-2">Key Department Heads</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Dept Head 1 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Head 1" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">Amit Verma</h4>
+                        <p class="text-xs text-gray-500 uppercase">Structural Lead</p>
+                    </div>
+                </div>
+
+                <!-- Dept Head 2 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Head 2" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">Sneha K.</h4>
+                        <p class="text-xs text-gray-500 uppercase">Interior Head</p>
+                    </div>
+                </div>
+
+                <!-- Dept Head 3 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="300">
+                    <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Head 3" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">David John</h4>
+                        <p class="text-xs text-gray-500 uppercase">Safety Officer</p>
+                    </div>
+                </div>
+
+                <!-- Dept Head 4 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="400">
+                    <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Head 4" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">Meera Rao</h4>
+                        <p class="text-xs text-gray-500 uppercase">Procurement</p>
+                    </div>
+                </div>
+                
+                <!-- Dept Head 5 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="500">
+                    <img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Head 5" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">Karthik S.</h4>
+                        <p class="text-xs text-gray-500 uppercase">Site Manager</p>
+                    </div>
+                </div>
+
+                <!-- Dept Head 6 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="600">
+                    <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Head 6" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">Rahul P.</h4>
+                        <p class="text-xs text-gray-500 uppercase">MEP Lead</p>
+                    </div>
+                </div>
+
+                <!-- Dept Head 7 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="700">
+                    <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Head 7" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">Anjali D.</h4>
+                        <p class="text-xs text-gray-500 uppercase">HR Manager</p>
+                    </div>
+                </div>
+
+                <!-- Dept Head 8 -->
+                <div class="dept-card bg-white p-6 rounded-lg shadow-sm flex items-center gap-4" data-aos="fade-up" data-aos-delay="800">
+                    <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Head 8" class="w-16 h-16 rounded-full object-cover border-2 border-primary">
+                    <div>
+                        <h4 class="font-bold text-secondary text-lg">Vikram Singh</h4>
+                        <p class="text-xs text-gray-500 uppercase">Legal Advisor</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Culture Section -->
+    <section class="py-24 bg-secondary text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <span class="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Our Culture</span>
+                    <h2 class="text-4xl font-heading font-bold mb-6">Built on Trust & Teamwork</h2>
+                    <p class="text-gray-300 leading-relaxed mb-6">
+                        At Apex Buildstone, we treat our team like family. We believe that a safe, inclusive, and growth-oriented environment leads to the best results for our clients. From regular safety training workshops to annual team retreats, we invest in our people.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-300"><i class="fas fa-check text-primary mr-3"></i> Continuous Skill Development</li>
+                        <li class="flex items-center text-gray-300"><i class="fas fa-check text-primary mr-3"></i> Zero-Accident Safety Protocols</li>
+                        <li class="flex items-center text-gray-300"><i class="fas fa-check text-primary mr-3"></i> Meritocratic Growth Path</li>
+                    </ul>
+                </div>
+                <div class="lg:w-1/2 grid grid-cols-2 gap-4" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1542626991-cbc4e32524cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Site Safety" class="rounded-lg shadow-lg transform translate-y-8">
+                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Office Culture" class="rounded-lg shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Careers / CTA -->
+    <section id="careers" class="py-20 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-secondary mb-6" data-aos="fade-up">Want to Build the Future with Us?</h2>
+            <p class="text-gray-600 text-lg mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                We are always looking for talented civil engineers, architects, and site supervisors. Check our open positions or send us your resume.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+                <a href="contact.html" class="px-8 py-4 bg-primary text-white font-bold rounded-lg shadow-lg hover:bg-yellow-600 transition transform hover:-translate-y-1">
+                    Contact HR
+                </a>
+                <a href="#" class="px-8 py-4 border-2 border-secondary text-secondary font-bold rounded-lg hover:bg-secondary hover:text-white transition">
+                    View Openings
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white border-t border-gray-800 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="index.html" class="text-2xl font-heading font-bold flex items-center gap-2 mb-6">
+                        <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-loose">
+                        Building the future of Bangalore with precision, quality, and trust. ISO 9001:2015 Certified Construction Company.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition hover:pl-2 duration-300">Home</a></li>
+                        <li><a href="about.html" class="hover:text-primary transition hover:pl-2 duration-300">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-primary transition hover:pl-2 duration-300">Services</a></li>
+                        <li><a href="projects.html" class="hover:text-primary transition hover:pl-2 duration-300">Projects</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition hover:pl-2 duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Services</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="residential.html" class="hover:text-primary transition hover:pl-2 duration-300">Residential Construction</a></li>
+                        <li><a href="commercial.html" class="hover:text-primary transition hover:pl-2 duration-300">Commercial Complex</a></li>
+                        <li><a href="industrial.html" class="hover:text-primary transition hover:pl-2 duration-300">Industrial Sheds</a></li>
+                        <li><a href="interiors.html" class="hover:text-primary transition hover:pl-2 duration-300">Interior Design</a></li>
+                        <li><a href="renovation.html" class="hover:text-primary transition hover:pl-2 duration-300">Renovations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Newsletter</h4>
+                    <p class="text-gray-500 text-sm mb-4">Subscribe to get construction tips and market insights.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your Email" class="px-4 py-3 bg-gray-900 text-white border border-gray-800 rounded-l focus:outline-none focus:border-primary w-full transition">
+                        <button class="bg-primary px-4 py-3 rounded-r hover:bg-yellow-600 transition font-bold text-white"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2023 Apex Buildstone Pvt Ltd. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white mr-4 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 80,
+            easing: 'ease-in-out'
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Apex Buildstone</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f59e0b', // Construction Amber
+                        secondary: '#1e293b', // Slate 800
+                        dark: '#0f172a', // Slate 900
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Utilities */
+        body {
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Hero Parallax & Overlay */
+        .page-header {
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Navbar Transition */
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Value Cards */
+        .value-card {
+            transition: all 0.4s ease;
+        }
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-bottom: 4px solid #f59e0b;
+        }
+
+        /* Timeline Styles */
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid #e2e8f0;
+            padding-bottom: 3rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #f59e0b;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 2px #f59e0b;
+        }
+        .timeline-item:last-child {
+            border-left: transparent;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f59e0b;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 text-white">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl font-heading font-bold flex items-center gap-2">
+                <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm lg:text-base">
+                <a href="index.html" class="hover:text-primary transition font-medium">Home</a>
+                <a href="about.html" class="text-primary font-medium">About</a>
+                <a href="services.html" class="hover:text-primary transition font-medium">Services</a>
+                <a href="process.html" class="hover:text-primary transition font-medium">Process</a>
+                <a href="projects.html" class="hover:text-primary transition font-medium">Projects</a>
+                <a href="team.html" class="hover:text-primary transition font-medium">Team</a>
+                <a href="contact.html" class="px-6 py-2 bg-primary text-white font-bold rounded hover:bg-yellow-600 transition shadow-lg transform hover:-translate-y-1">Contact Us</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark absolute top-full left-0 w-full py-4 px-6 shadow-xl border-t border-gray-800">
+            <a href="index.html" class="block py-2 hover:text-primary border-b border-gray-800">Home</a>
+            <a href="about.html" class="block py-2 text-primary font-bold border-b border-gray-800">About</a>
+            <a href="services.html" class="block py-2 hover:text-primary border-b border-gray-800">Services</a>
+            <a href="process.html" class="block py-2 hover:text-primary border-b border-gray-800">Process</a>
+            <a href="projects.html" class="block py-2 hover:text-primary border-b border-gray-800">Projects</a>
+            <a href="team.html" class="block py-2 hover:text-primary border-b border-gray-800">Team</a>
+            <a href="contact.html" class="block py-3 mt-2 text-primary font-bold">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header relative">
+        <div class="container mx-auto px-6 text-center z-10" data-aos="fade-up">
+            <span class="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Our Story</span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Building a Legacy of Trust</h1>
+            <div class="w-24 h-1.5 bg-primary mx-auto rounded"></div>
+            <p class="text-gray-300 mt-6 text-lg max-w-2xl mx-auto">
+                Discover the passion, precision, and people behind Bangalore's most reliable construction firm.
+            </p>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white text-2xl cursor-pointer" onclick="document.querySelector('#story').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- The Story Section -->
+    <section id="story" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2" data-aos="fade-right">
+                    <span class="text-primary font-bold tracking-wider uppercase text-sm">Since 1998</span>
+                    <h2 class="text-4xl font-heading font-bold text-secondary mt-2 mb-6">From Humble Beginnings to <br><span class="text-primary">Industry Leaders</span></h2>
+                    
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        Apex Buildstone began as a small family-run civil contracting firm in South Bangalore. Founded by Mr. Ramesh Gowda with a single mixer truck and a team of ten, we were driven by a simple promise: <strong>to deliver what we promise, on time.</strong>
+                    </p>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Over the last two decades, Bangalore transformed from a Garden City to the Silicon Valley of India, and we evolved with it. We embraced modern construction technologies like Mivan shuttering and green building practices, allowing us to execute complex commercial and residential projects with precision.
+                    </p>
+                    <p class="text-gray-600 leading-relaxed border-l-4 border-primary pl-6 italic">
+                        "Construction is not just about brick and mortar; it's about creating spaces where life happens and businesses thrive."
+                    </p>
+                    
+                    <div class="mt-8 flex gap-8">
+                         <div>
+                            <h4 class="text-4xl font-bold text-secondary">2M+</h4>
+                            <p class="text-sm text-gray-500 uppercase">Sq. Ft. Built</p>
+                         </div>
+                         <div>
+                            <h4 class="text-4xl font-bold text-secondary">300+</h4>
+                            <p class="text-sm text-gray-500 uppercase">Projects Delivered</p>
+                         </div>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 relative" data-aos="fade-left">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-primary/20 rounded-tl-3xl -z-10"></div>
+                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-secondary/20 rounded-br-3xl -z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1531834685032-c34bf0d84c7c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Construction Site Meeting" class="rounded-xl shadow-2xl w-full object-cover h-[500px]">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="py-20 bg-secondary text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-5" style="background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Mission -->
+                <div class="bg-white/5 p-10 rounded-2xl border border-white/10 hover:bg-white/10 transition duration-300" data-aos="fade-up">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6 text-2xl text-white shadow-lg">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">Our Mission</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        To provide superior construction services by consistently improving the quality of our product, adding value for clients through innovation, foresight, integrity, and aggressive performance; and to serve with character and purpose.
+                    </p>
+                </div>
+
+                <!-- Vision -->
+                <div class="bg-white/5 p-10 rounded-2xl border border-white/10 hover:bg-white/10 transition duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-6 text-2xl text-white shadow-lg">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold mb-4">Our Vision</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        To be the premier construction company in Karnataka, recognized for our commitment to safety, quality, and community. We aim to build a sustainable future where our structures stand as landmarks of excellence for generations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Values -->
+    <section class="py-24 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-20" data-aos="fade-up">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm">Our Philosophy</span>
+                <h2 class="text-4xl font-heading font-bold text-secondary mt-2">Core Values</h2>
+                <div class="w-24 h-1.5 bg-primary mx-auto mt-4 rounded"></div>
+                <p class="text-gray-600 mt-4">The principles that guide every decision we make.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Value 1 -->
+                <div class="value-card bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-shield-alt text-5xl text-primary mb-6"></i>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Integrity</h3>
+                    <p class="text-gray-600 text-sm">We remain true to our founding values of quality, honesty, and hard work.</p>
+                </div>
+
+                <!-- Value 2 -->
+                <div class="value-card bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-hard-hat text-5xl text-primary mb-6"></i>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Safety First</h3>
+                    <p class="text-gray-600 text-sm">We are committed to the safety of our employees and the public on all our sites.</p>
+                </div>
+
+                <!-- Value 3 -->
+                <div class="value-card bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-leaf text-5xl text-primary mb-6"></i>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Sustainability</h3>
+                    <p class="text-gray-600 text-sm">Implementing green building practices to minimize environmental impact.</p>
+                </div>
+
+                <!-- Value 4 -->
+                <div class="value-card bg-white p-8 rounded-xl shadow-sm border border-gray-100 text-center" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-handshake text-5xl text-primary mb-6"></i>
+                    <h3 class="text-xl font-bold text-secondary mb-3">Client Focus</h3>
+                    <p class="text-gray-600 text-sm">We are proactive in finding solutions for our clients that best achieve their goals.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline / History -->
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+             <div class="flex flex-col lg:flex-row gap-16">
+                 <!-- Image/Side Content -->
+                 <div class="lg:w-1/3 sticky top-32 h-fit" data-aos="fade-right">
+                    <span class="text-primary font-bold tracking-wider uppercase text-sm">Our Journey</span>
+                    <h2 class="text-4xl font-heading font-bold text-secondary mt-2 mb-6">Milestones That Define Us</h2>
+                    <p class="text-gray-600 mb-8">
+                        Every year marks a new chapter of growth and engineering excellence. Here is a glimpse into the major milestones of Apex Buildstone.
+                    </p>
+                    <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Architectural Plan" class="rounded-xl shadow-lg w-full">
+                 </div>
+
+                 <!-- Timeline -->
+                 <div class="lg:w-2/3 lg:pl-12 border-l border-gray-100" data-aos="fade-left">
+                     <div class="timeline-item">
+                         <span class="text-primary font-bold text-lg">1998</span>
+                         <h3 class="text-2xl font-bold text-secondary mt-1 mb-2">Inception</h3>
+                         <p class="text-gray-600">Established as 'Apex Contractors' in a small office in Jayanagar, focusing on residential renovations.</p>
+                     </div>
+
+                     <div class="timeline-item">
+                         <span class="text-primary font-bold text-lg">2005</span>
+                         <h3 class="text-2xl font-bold text-secondary mt-1 mb-2">First Commercial Project</h3>
+                         <p class="text-gray-600">Successfully delivered a 4-story commercial complex in Indiranagar, marking our entry into the commercial sector.</p>
+                     </div>
+
+                     <div class="timeline-item">
+                         <span class="text-primary font-bold text-lg">2010</span>
+                         <h3 class="text-2xl font-bold text-secondary mt-1 mb-2">Incorporation & Expansion</h3>
+                         <p class="text-gray-600">Rebranded to 'Apex Buildstone Pvt Ltd'. Expanded team to 50+ engineers and acquired heavy machinery fleet.</p>
+                     </div>
+
+                     <div class="timeline-item">
+                         <span class="text-primary font-bold text-lg">2015</span>
+                         <h3 class="text-2xl font-bold text-secondary mt-1 mb-2">ISO Certification</h3>
+                         <p class="text-gray-600">Awarded ISO 9001:2015 certification for Quality Management Systems. Reached the milestone of 100 completed projects.</p>
+                     </div>
+
+                     <div class="timeline-item">
+                         <span class="text-primary font-bold text-lg">2019</span>
+                         <h3 class="text-2xl font-bold text-secondary mt-1 mb-2">The Tech Park Era</h3>
+                         <p class="text-gray-600">Partnered to build a 250,000 sq. ft. IT Park in Whitefield, our largest project to date.</p>
+                     </div>
+
+                     <div class="timeline-item">
+                         <span class="text-primary font-bold text-lg">2023</span>
+                         <h3 class="text-2xl font-bold text-secondary mt-1 mb-2">Green Building Award</h3>
+                         <p class="text-gray-600">Recognized by the Indian Green Building Council (IGBC) for sustainable construction practices in our 'Emerald Villa' project.</p>
+                     </div>
+                 </div>
+             </div>
+        </div>
+    </section>
+
+    <!-- Certification & Safety Banner -->
+    <section class="py-16 bg-secondary text-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-6">
+                    <i class="fas fa-certificate text-6xl text-primary opacity-80"></i>
+                    <div>
+                        <h3 class="text-2xl font-bold">ISO 9001:2015 Certified</h3>
+                        <p class="text-gray-300">We adhere to global standards of quality and safety.</p>
+                    </div>
+                </div>
+                <div class="h-12 w-px bg-gray-600 hidden md:block"></div>
+                <div class="flex items-center gap-6">
+                    <i class="fas fa-hard-hat text-6xl text-primary opacity-80"></i>
+                    <div>
+                        <h3 class="text-2xl font-bold">Zero Accident Policy</h3>
+                        <p class="text-gray-300">2 Million+ safe man-hours achieved in 2022-23.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white border-t border-gray-800 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="index.html" class="text-2xl font-heading font-bold flex items-center gap-2 mb-6">
+                        <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-loose">
+                        Building the future of Bangalore with precision, quality, and trust. ISO 9001:2015 Certified Construction Company.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition hover:pl-2 duration-300">Home</a></li>
+                        <li><a href="about.html" class="text-primary transition hover:pl-2 duration-300">About Us</a></li>
+                        <li><a href="services.html" class="hover:text-primary transition hover:pl-2 duration-300">Services</a></li>
+                        <li><a href="projects.html" class="hover:text-primary transition hover:pl-2 duration-300">Projects</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition hover:pl-2 duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Services</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition hover:pl-2 duration-300">Residential Construction</a></li>
+                        <li><a href="#" class="hover:text-primary transition hover:pl-2 duration-300">Commercial Complex</a></li>
+                        <li><a href="#" class="hover:text-primary transition hover:pl-2 duration-300">Industrial Sheds</a></li>
+                        <li><a href="#" class="hover:text-primary transition hover:pl-2 duration-300">Interior Design</a></li>
+                        <li><a href="#" class="hover:text-primary transition hover:pl-2 duration-300">Renovations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Newsletter</h4>
+                    <p class="text-gray-500 text-sm mb-4">Subscribe to get construction tips and market insights.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your Email" class="px-4 py-3 bg-gray-900 text-white border border-gray-800 rounded-l focus:outline-none focus:border-primary w-full transition">
+                        <button class="bg-primary px-4 py-3 rounded-r hover:bg-yellow-600 transition font-bold text-white"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2023 Apex Buildstone Pvt Ltd. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white mr-4 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 80,
+            easing: 'ease-in-out'
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

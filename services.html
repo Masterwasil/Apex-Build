@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Apex Buildstone</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f59e0b', // Construction Amber
+                        secondary: '#1e293b', // Slate 800
+                        dark: '#0f172a', // Slate 900
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Utilities */
+        body {
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Hero Parallax & Overlay */
+        .page-header {
+            /* Distinct image for Services */
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.8)), url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Navbar Transition */
+        .nav-scrolled {
+            background-color: rgba(15, 23, 42, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+
+        /* Service Cards */
+        .service-card-detail {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .service-card-detail:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-color: #f59e0b;
+        }
+        .service-card-detail:hover .icon-wrapper {
+            background-color: #f59e0b;
+            color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+        .service-btn {
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s;
+        }
+        .service-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #f59e0b;
+            transition: width 0.3s ease;
+        }
+        .service-btn:hover::after {
+            width: 100%;
+        }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f59e0b;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Loader -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 text-white">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="index.html" class="text-3xl font-heading font-bold flex items-center gap-2">
+                <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8 text-sm lg:text-base">
+                <a href="index.html" class="hover:text-primary transition font-medium">Home</a>
+                <a href="about.html" class="hover:text-primary transition font-medium">About</a>
+                <a href="services.html" class="text-primary font-medium">Services</a>
+                <a href="process.html" class="hover:text-primary transition font-medium">Process</a>
+                <a href="projects.html" class="hover:text-primary transition font-medium">Projects</a>
+                <a href="team.html" class="hover:text-primary transition font-medium">Team</a>
+                <a href="contact.html" class="px-6 py-2 bg-primary text-white font-bold rounded hover:bg-yellow-600 transition shadow-lg transform hover:-translate-y-1">Contact Us</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-2xl focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark absolute top-full left-0 w-full py-4 px-6 shadow-xl border-t border-gray-800">
+            <a href="index.html" class="block py-2 hover:text-primary border-b border-gray-800">Home</a>
+            <a href="about.html" class="block py-2 hover:text-primary border-b border-gray-800">About</a>
+            <a href="services.html" class="block py-2 text-primary font-bold border-b border-gray-800">Services</a>
+            <a href="process.html" class="block py-2 hover:text-primary border-b border-gray-800">Process</a>
+            <a href="projects.html" class="block py-2 hover:text-primary border-b border-gray-800">Projects</a>
+            <a href="team.html" class="block py-2 hover:text-primary border-b border-gray-800">Team</a>
+            <a href="contact.html" class="block py-3 mt-2 text-primary font-bold">Contact Us</a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="page-header relative">
+        <div class="container mx-auto px-6 text-center z-10" data-aos="fade-up">
+            <span class="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">Our Expertise</span>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">Comprehensive Building Solutions</h1>
+            <div class="w-24 h-1.5 bg-primary mx-auto rounded"></div>
+            <p class="text-gray-300 mt-6 text-lg max-w-2xl mx-auto">
+                From concept to creation, we offer a full spectrum of construction services tailored to your unique requirements.
+            </p>
+        </div>
+        
+        <!-- Scroll Down Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white text-2xl cursor-pointer" onclick="document.querySelector('#all-services').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </header>
+
+    <!-- Intro Text -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6 text-center max-w-4xl">
+            <h2 class="text-3xl font-heading font-bold text-secondary mb-6">We Build More Than Just Structures</h2>
+            <p class="text-gray-600 leading-relaxed text-lg">
+                At Apex Buildstone, we understand that every project is a significant investment. Whether it's a dream home, a high-tech office, or a large-scale industrial facility, we bring the same level of dedication, transparency, and engineering precision to the table. Our integrated approach ensures seamless execution from the first blueprint to the final coat of paint.
+            </p>
+        </div>
+    </section>
+
+    <!-- All Services Grid -->
+    <section id="all-services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+                <span class="text-primary font-bold tracking-wider uppercase text-sm">What We Do</span>
+                <h2 class="text-4xl font-heading font-bold text-secondary mt-2">Our Core Services</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Service 1: Residential -->
+                <div class="service-card-detail bg-white p-8 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon-wrapper w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-primary text-2xl mb-6 transition-transform duration-500">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">Residential Construction</h3>
+                    <p class="text-gray-600 mb-6 flex-grow">We specialize in turning personal visions into reality. Our residential team handles everything from custom villas to multi-story apartment complexes.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-gray-500">
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Custom Villas & Bungalows</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Apartment Complexes</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Gated Community Development</li>
+                    </ul>
+                    <a href="residential.html" class="service-btn text-secondary font-bold inline-flex items-center mt-auto hover:text-primary">
+                        View Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2: Commercial -->
+                <div class="service-card-detail bg-white p-8 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon-wrapper w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-primary text-2xl mb-6 transition-transform duration-500">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">Commercial Projects</h3>
+                    <p class="text-gray-600 mb-6 flex-grow">Building spaces that drive business growth. We deliver modern, energy-efficient, and structurally sound commercial properties.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-gray-500">
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Office Buildings & IT Parks</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Shopping Malls & Retail</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Hotels & Hospitality</li>
+                    </ul>
+                    <a href="commercial.html" class="service-btn text-secondary font-bold inline-flex items-center mt-auto hover:text-primary">
+                        View Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3: Industrial -->
+                <div class="service-card-detail bg-white p-8 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full" data-aos="fade-up" data-aos-delay="300">
+                    <div class="icon-wrapper w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-primary text-2xl mb-6 transition-transform duration-500">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">Industrial & Warehousing</h3>
+                    <p class="text-gray-600 mb-6 flex-grow">Heavy-duty construction for heavy-duty needs. We build factories and warehouses optimized for logistics and production.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-gray-500">
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> PEB Structures</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Manufacturing Plants</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Logistics Warehouses</li>
+                    </ul>
+                    <a href="industrial.html" class="service-btn text-secondary font-bold inline-flex items-center mt-auto hover:text-primary">
+                        View Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Service 4: Architecture -->
+                <div class="service-card-detail bg-white p-8 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full" data-aos="fade-up" data-aos-delay="400">
+                    <div class="icon-wrapper w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-primary text-2xl mb-6 transition-transform duration-500">
+                        <i class="fas fa-drafting-compass"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">Architecture & Design</h3>
+                    <p class="text-gray-600 mb-6 flex-grow">Our in-house design team collaborates with you to create blueprints that are both aesthetically pleasing and structurally viable.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-gray-500">
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> 3D Visualization & Walkthroughs</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Structural Engineering</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Government Approvals</li>
+                    </ul>
+                    <a href="architecture.html" class="service-btn text-secondary font-bold inline-flex items-center mt-auto hover:text-primary">
+                        View Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Service 5: Interiors -->
+                <div class="service-card-detail bg-white p-8 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full" data-aos="fade-up" data-aos-delay="500">
+                    <div class="icon-wrapper w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-primary text-2xl mb-6 transition-transform duration-500">
+                        <i class="fas fa-couch"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">Interiors & Renovation</h3>
+                    <p class="text-gray-600 mb-6 flex-grow">Revitalize your existing space or finish your new build with our turnkey interior solutions.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-gray-500">
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Full Home Remodeling</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Corporate Office Interiors</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Kitchen & Wardrobe Units</li>
+                    </ul>
+                    <a href="interiors.html" class="service-btn text-secondary font-bold inline-flex items-center mt-auto hover:text-primary">
+                        View Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Service 6: Infrastructure -->
+                <div class="service-card-detail bg-white p-8 rounded-xl border border-gray-100 shadow-sm flex flex-col h-full" data-aos="fade-up" data-aos-delay="600">
+                    <div class="icon-wrapper w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-primary text-2xl mb-6 transition-transform duration-500">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">Infrastructure</h3>
+                    <p class="text-gray-600 mb-6 flex-grow">We build the backbone of communities. Our expertise extends to large-scale infrastructure projects.</p>
+                    <ul class="space-y-2 mb-8 text-sm text-gray-500">
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Road & Drainage Works</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Landscape Development</li>
+                        <li class="flex items-center"><i class="fas fa-check text-primary mr-2"></i> Water Treatment Plants</li>
+                    </ul>
+                    <a href="infrastructure.html" class="service-btn text-secondary font-bold inline-flex items-center mt-auto hover:text-primary">
+                        View Details <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="py-20 bg-secondary text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div data-aos="fade-right">
+                    <span class="text-primary font-bold tracking-wider uppercase text-sm">Why Choose Apex</span>
+                    <h2 class="text-4xl font-heading font-bold mt-2 mb-6">The Apex Advantage</h2>
+                    <p class="text-gray-300 mb-8 leading-relaxed">
+                        Choosing the right construction partner is crucial. We bring 25 years of experience, a fleet of modern machinery, and a skilled workforce to ensure your project is delivered on time and within budget.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mt-1">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold">On-Time Delivery</h4>
+                                <p class="text-gray-400 text-sm mt-1">We use advanced project management software (Primavera/MSP) to track progress and prevent delays.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mt-1">
+                                <i class="fas fa-check-double"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold">Quality Assurance</h4>
+                                <p class="text-gray-400 text-sm mt-1">Our on-site labs test concrete, steel, and blocks to ensure they meet IS codes before use.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary mt-1">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-xl font-bold">Transparent Contracts</h4>
+                                <p class="text-gray-400 text-sm mt-1">No hidden costs. We provide detailed BOQs (Bill of Quantities) so you know exactly what you pay for.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative h-[500px]" data-aos="fade-left">
+                    <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Construction Worker" class="absolute inset-0 w-full h-full object-cover rounded-xl shadow-2xl">
+                    <div class="absolute -bottom-6 -left-6 bg-primary p-8 rounded-lg shadow-xl hidden md:block">
+                        <p class="text-dark font-bold text-4xl">100%</p>
+                        <p class="text-dark font-medium uppercase text-sm">Client Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-primary">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6" data-aos="fade-up">Ready to Build Your Vision?</h2>
+            <p class="text-white/90 text-lg mb-8 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
+                Contact our experts today for a free consultation and quote. Let's discuss how we can bring your project to life.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+                <a href="contact.html" class="px-8 py-4 bg-white text-primary font-bold rounded-lg shadow-lg hover:bg-gray-100 transition transform hover:-translate-y-1">
+                    Get a Quote
+                </a>
+                <a href="projects.html" class="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition">
+                    View Portfolio
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white border-t border-gray-800 pt-16 pb-8">
+        <div class="container mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="index.html" class="text-2xl font-heading font-bold flex items-center gap-2 mb-6">
+                        <i class="fas fa-city text-primary"></i> APEX<span class="text-primary">BUILD</span>
+                    </a>
+                    <p class="text-gray-500 text-sm leading-loose">
+                        Building the future of Bangalore with precision, quality, and trust. ISO 9001:2015 Certified Construction Company.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary hover:text-white transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Quick Links</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition hover:pl-2 duration-300">Home</a></li>
+                        <li><a href="about.html" class="hover:text-primary transition hover:pl-2 duration-300">About Us</a></li>
+                        <li><a href="services.html" class="text-primary transition hover:pl-2 duration-300">Services</a></li>
+                        <li><a href="projects.html" class="hover:text-primary transition hover:pl-2 duration-300">Projects</a></li>
+                        <li><a href="contact.html" class="hover:text-primary transition hover:pl-2 duration-300">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Services</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="residential.html" class="hover:text-primary transition hover:pl-2 duration-300">Residential Construction</a></li>
+                        <li><a href="commercial.html" class="hover:text-primary transition hover:pl-2 duration-300">Commercial Complex</a></li>
+                        <li><a href="industrial.html" class="hover:text-primary transition hover:pl-2 duration-300">Industrial Sheds</a></li>
+                        <li><a href="interiors.html" class="hover:text-primary transition hover:pl-2 duration-300">Interior Design</a></li>
+                        <li><a href="renovation.html" class="hover:text-primary transition hover:pl-2 duration-300">Renovations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold mb-6 border-b-2 border-primary inline-block pb-2">Newsletter</h4>
+                    <p class="text-gray-500 text-sm mb-4">Subscribe to get construction tips and market insights.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your Email" class="px-4 py-3 bg-gray-900 text-white border border-gray-800 rounded-l focus:outline-none focus:border-primary w-full transition">
+                        <button class="bg-primary px-4 py-3 rounded-r hover:bg-yellow-600 transition font-bold text-white"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500">
+                <p>&copy; 2023 Apex Buildstone Pvt Ltd. All rights reserved.</p>
+                <div class="mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white mr-4 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 80,
+            easing: 'ease-in-out'
+        });
+
+        // Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
